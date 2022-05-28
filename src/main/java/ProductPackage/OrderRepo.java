@@ -20,9 +20,6 @@ public class OrderRepo {
     }
 
     public Optional<Order> getOrderById(String id) {
-        if(orders.get(id) == null) {
-            return Optional.empty();
-        }
-        return Optional.of(orders.get(id));
+        return Optional.ofNullable(orders.get(id));
     }
 }

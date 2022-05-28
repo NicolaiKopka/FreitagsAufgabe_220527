@@ -14,11 +14,7 @@ public class ProductRepo {
     }
 
     public Optional<Product> getProductById(String id) {
-        if(allProducts.get(id) == null){
-            return Optional.empty();
-        }else {
-            return Optional.of(allProducts.get(id));
-        }
+        return Optional.ofNullable(allProducts.get(id));
     }
 
     public List<Product> list() {
