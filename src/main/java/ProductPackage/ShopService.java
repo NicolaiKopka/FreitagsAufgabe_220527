@@ -25,12 +25,9 @@ public class ShopService {
     public void addOrder(List<String> idList) {
         List<Product> productList = new ArrayList<>();
         for(String id : idList) {
-            Optional<Product> product = productRepo.getProductById(id);
-            if( product.isEmpty()){
-                throw new RuntimeException("Product does not exist");
-            }else {
-                productList.add(product.get());
-            }
+            Product product = productRepo.getProductById(id).orElseThrow(() -> new RuntimeException("Product does not exist"));
+            productList.add(product);
+
         }
         orderRepo.addOrder(productList);
     }

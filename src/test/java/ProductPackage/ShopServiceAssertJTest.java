@@ -38,6 +38,8 @@ class ShopServiceAssertJTest {
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> shopService.addOrder(productListWithId))
                 .withMessage("Product does not exist");
+
+        assertThat(shopService.listProducts().size()).isEqualTo(3);
     }
 
 }
