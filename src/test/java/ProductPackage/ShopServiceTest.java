@@ -1,6 +1,7 @@
 package ProductPackage;
 
 import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import javax.lang.model.type.ArrayType;
 import java.util.ArrayList;
@@ -134,7 +135,36 @@ class ShopServiceTest {
             shopService.getOrderById(newOrder.getId());
             fail();
         } catch (RuntimeException e) {}
+    }
 
+    @Test
+    void shouldReturnProductByName() {
+        var product1 = new EntertainmentProduct("TV");
+        var product2 = new EntertainmentProduct("PlayStation");
+        var product3 = new ElectronicProduct("CoffeeMaker");
+        var product4 = new ElectronicProduct("Microwave");
+        var product5 = new ElectronicProduct("Oven");
+        var product6 = new ElectronicProduct("CellPhone");
+        var productList = new ArrayList<Product>(List.of(product1, product2, product3, product4, product5, product6));
+        var productRepo = new ProductRepo(productList);
+        var shopService = new ShopService(productRepo);
+        assertEquals(product1, shopService.getProductsByName("TV"));
+    }
+
+    @Test
+    void shouldFailIfProductByNameDoesNotExist() {
+        var product1 = new EntertainmentProduct("TV");
+        var product2 = new EntertainmentProduct("PlayStation");
+        var product3 = new ElectronicProduct("CoffeeMaker");
+        var product4 = new ElectronicProduct("Microwave");
+        var product5 = new ElectronicProduct("Oven");
+        var product6 = new ElectronicProduct("CellPhone");
+        var productList = new ArrayList<Product>(List.of(product1, product2, product3, product4, product5, product6));
+        var productRepo = new ProductRepo(productList);
+        var shopService = new ShopService(productRepo);
+        assertThatExceptionOfType(RuntimeException.class)
+                .isThrownBy(() -> shopService.getProductsByName("Vase"))
+                .withMessage("Product does not exist");
     }
 
 }
